@@ -1,1 +1,931 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WhyFi</title>
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Italianno&family=Montserrat:ital,wght@0,400;0,500;1,400;1,600&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        /* ==============================
+           BASIC RESET
+        ============================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            background: #020202;
+
+            color: white;
+
+            font-family: 'Montserrat', sans-serif;
+        }
+
+
+        /* ==============================
+           COMMON SCREEN
+        ============================== */
+
+        .screen {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100vh;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 50% 50%,
+                    rgba(255, 70, 15, 0.10),
+                    transparent 35%
+                ),
+                #020202;
+        }
+
+
+        /* ==============================
+           ORANGE GLOW
+        ============================== */
+
+        .glow {
+
+            position: absolute;
+
+            width: 650px;
+            height: 650px;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255, 70, 10, 0.15),
+                    rgba(255, 40, 0, 0.05),
+                    transparent 70%
+                );
+
+            filter: blur(30px);
+
+            pointer-events: none;
+        }
+
+
+        /* ==============================
+           FUTURISTIC GRID
+        ============================== */
+
+        .grid {
+
+            position: absolute;
+
+            inset: 0;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(255, 80, 20, 0.025) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    rgba(255, 80, 20, 0.025) 1px,
+                    transparent 1px
+                );
+
+            background-size: 60px 60px;
+
+            transform:
+                perspective(500px)
+                rotateX(60deg)
+                scale(2);
+
+            transform-origin: center bottom;
+
+            opacity: 0.45;
+
+            pointer-events: none;
+        }
+
+
+        /* ==============================
+           VIGNETTE
+        ============================== */
+
+        .vignette {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle,
+                    transparent 35%,
+                    rgba(0, 0, 0, 0.88) 100%
+                );
+
+            pointer-events: none;
+        }
+
+
+        /* ==============================
+           FIRST PAGE
+        ============================== */
+
+        #firstPage {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            z-index: 10;
+
+            transition:
+
+                transform
+                1.2s
+                cubic-bezier(.77, 0, .18, 1),
+
+                opacity
+                1s
+                ease;
+        }
+
+
+        /* ==============================
+           WHYFI LOGO
+        ============================== */
+
+        .logo {
+
+            font-family: 'Italianno', cursive;
+
+            font-size:
+                clamp(110px, 20vw, 240px);
+
+            color: #ff6420;
+
+            letter-spacing: 8px;
+
+            text-shadow:
+
+                0 0 10px
+                rgba(255, 80, 20, 0.8),
+
+                0 0 30px
+                rgba(255, 60, 10, 0.5),
+
+                0 0 70px
+                rgba(255, 40, 0, 0.25);
+
+            animation:
+                breathe
+                3s
+                infinite
+                ease-in-out;
+        }
+
+
+        /* ==============================
+           SMALL LOGO TEXT
+        ============================== */
+
+        .subtitle {
+
+            margin-top: -25px;
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 12px;
+
+            letter-spacing: 7px;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+
+            text-transform: uppercase;
+        }
+
+
+        /* ==============================
+           SWIPE AREA
+        ============================== */
+
+        .swipe {
+
+            position: absolute;
+
+            bottom: 45px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+
+            font-size: 11px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+        }
+
+
+        /* ==============================
+           SWIPE ARROW
+        ============================== */
+
+        .arrow {
+
+            font-size: 28px;
+
+            color: #ff6420;
+
+            margin-bottom: 7px;
+
+            animation:
+                arrowMove
+                1.5s
+                infinite;
+        }
+
+
+        /* ==============================
+           SECOND PAGE
+        ============================== */
+
+        #secondPage {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            transform:
+                translateY(100%);
+
+            opacity: 0;
+
+            transition:
+
+                transform
+                1.2s
+                cubic-bezier(.77, 0, .18, 1),
+
+                opacity
+                1s
+                ease;
+
+            z-index: 5;
+        }
+
+
+        /* ==============================
+           SECOND PAGE CONTENT
+        ============================== */
+
+        .content {
+
+            max-width: 850px;
+
+            padding: 30px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* ==============================
+           CONNECTION TEXT
+        ============================== */
+
+        .signal {
+
+            font-family: 'Cinzel', serif;
+
+            color: #ff6420;
+
+            font-size: 12px;
+
+            letter-spacing: 6px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* ==============================
+           WELCOME
+        ============================== */
+
+        .welcome {
+
+            font-family: 'Italianno', cursive;
+
+            font-size:
+                clamp(100px, 15vw, 180px);
+
+            color: white;
+
+            line-height: 0.9;
+
+            text-shadow:
+
+                0 0 15px
+                rgba(255, 80, 20, 0.35),
+
+                0 0 40px
+                rgba(255, 60, 10, 0.15);
+        }
+
+
+        /* ==============================
+           DESCRIPTION
+        ============================== */
+
+        .description {
+
+            margin:
+
+                40px
+                auto
+                35px;
+
+            max-width: 620px;
+
+            color:
+                rgba(255, 255, 255, 0.65);
+
+            font-size: 14px;
+
+            font-style: italic;
+
+            line-height: 1.9;
+        }
+
+
+        /* ==============================
+           ENTER BUTTON
+        ============================== */
+
+        .enter {
+
+            border:
+
+                1px solid
+                #ff6420;
+
+            background: transparent;
+
+            color: #ff6420;
+
+            padding:
+
+                15px
+                38px;
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 11px;
+
+            letter-spacing: 3px;
+
+            cursor: pointer;
+
+            transition: 0.4s;
+
+            box-shadow:
+
+                0 0 15px
+                rgba(255, 70, 10, 0.1);
+        }
+
+
+        .enter:hover {
+
+            background: #ff6420;
+
+            color: #050505;
+
+            box-shadow:
+
+                0 0 15px
+                rgba(255, 70, 10, 0.5),
+
+                0 0 40px
+                rgba(255, 70, 10, 0.3);
+
+            transform: scale(1.05);
+        }
+
+
+        /* ==============================
+           ANIMATIONS
+        ============================== */
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+
+                transform:
+                    scale(1);
+
+            }
+
+            50% {
+
+                transform:
+                    scale(1.035);
+
+            }
+        }
+
+
+        @keyframes arrowMove {
+
+            0%,
+            100% {
+
+                transform:
+                    translateY(0);
+
+                opacity: 0.45;
+            }
+
+            50% {
+
+                transform:
+                    translateY(10px);
+
+                opacity: 1;
+            }
+        }
+
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 600px) {
+
+            .logo {
+
+                font-size: 120px;
+
+                letter-spacing: 4px;
+            }
+
+
+            .subtitle {
+
+                font-size: 9px;
+
+                letter-spacing: 4px;
+            }
+
+
+            .welcome {
+
+                font-size: 100px;
+            }
+
+
+            .description {
+
+                font-size: 12px;
+
+                padding:
+                    0 20px;
+            }
+
+
+            .signal {
+
+                font-size: 9px;
+
+                letter-spacing: 4px;
+            }
+
+
+            .enter {
+
+                padding:
+                    14px
+                    28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         PAGE 1 — WHYFI
+    =========================================== -->
+
+    <section
+        id="firstPage"
+        class="screen">
+
+
+        <!-- Background grid -->
+
+        <div class="grid"></div>
+
+
+        <!-- Orange glow -->
+
+        <div class="glow"></div>
+
+
+        <!-- WHYFI -->
+
+        <div class="logo">
+
+            WhyFi
+
+        </div>
+
+
+        <!-- Subtitle -->
+
+        <div class="subtitle">
+
+            The Internet Knows
+
+        </div>
+
+
+        <!-- Swipe instruction -->
+
+        <div class="swipe">
+
+            <div class="arrow">
+
+                ↑
+
+            </div>
+
+            Swipe Up
+
+        </div>
+
+
+        <!-- Dark edges -->
+
+        <div class="vignette"></div>
+
+    </section>
+
+
+
+    <!-- ==========================================
+         PAGE 2 — WELCOME
+    =========================================== -->
+
+    <section
+        id="secondPage"
+        class="screen">
+
+
+        <!-- Background grid -->
+
+        <div class="grid"></div>
+
+
+        <!-- Orange glow -->
+
+        <div class="glow"></div>
+
+
+        <!-- Content -->
+
+        <div class="content">
+
+
+            <!-- Small heading -->
+
+            <div class="signal">
+
+                CONNECTION ESTABLISHED
+
+            </div>
+
+
+            <!-- MAIN TITLE -->
+
+            <div class="welcome">
+
+                Welcome
+
+            </div>
+
+
+            <!-- Description -->
+
+            <div class="description">
+
+                You have entered the internet.
+
+                <br><br>
+
+                A place where information is unlimited,
+                privacy is questionable,
+                and common sense is optional.
+
+                <br><br>
+
+                Your journey begins here...
+
+            </div>
+
+
+            <!-- Button -->
+
+            <button
+                class="enter"
+                onclick="enterWhyFi()">
+
+                ENTER THE UNKNOWN →
+
+            </button>
+
+
+        </div>
+
+
+        <!-- Dark edges -->
+
+        <div class="vignette"></div>
+
+    </section>
+
+
+
+    <script>
+
+
+        /* ==========================================
+           VARIABLES
+        =========================================== */
+
+        let startY = 0;
+
+        let endY = 0;
+
+        let opened = false;
+
+
+        const firstPage =
+            document.getElementById("firstPage");
+
+        const secondPage =
+            document.getElementById("secondPage");
+
+
+
+        /* ==========================================
+           TOUCH START
+        =========================================== */
+
+        document.addEventListener(
+            "touchstart",
+            function(event) {
+
+                startY =
+                    event.touches[0].clientY;
+
+            }
+        );
+
+
+
+        /* ==========================================
+           TOUCH END
+        =========================================== */
+
+        document.addEventListener(
+            "touchend",
+            function(event) {
+
+                endY =
+                    event.changedTouches[0].clientY;
+
+                checkSwipe();
+
+            }
+        );
+
+
+
+        /* ==========================================
+           CHECK SWIPE
+        =========================================== */
+
+        function checkSwipe() {
+
+            if (
+
+                startY - endY > 70
+
+                &&
+
+                !opened
+
+            ) {
+
+                revealWelcome();
+
+            }
+
+        }
+
+
+
+        /* ==========================================
+           MOUSE SWIPE
+        =========================================== */
+
+        let mouseStart = 0;
+
+
+        document.addEventListener(
+            "mousedown",
+            function(event) {
+
+                mouseStart =
+                    event.clientY;
+
+            }
+        );
+
+
+        document.addEventListener(
+            "mouseup",
+            function(event) {
+
+                const mouseEnd =
+                    event.clientY;
+
+
+                if (
+
+                    mouseStart - mouseEnd > 70
+
+                    &&
+
+                    !opened
+
+                ) {
+
+                    revealWelcome();
+
+                }
+
+            }
+        );
+
+
+
+        /* ==========================================
+           KEYBOARD SUPPORT
+        =========================================== */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+
+                    (
+                        event.key === "ArrowUp"
+
+                        ||
+
+                        event.key === " "
+                    )
+
+                    &&
+
+                    !opened
+
+                ) {
+
+                    revealWelcome();
+
+                }
+
+            }
+        );
+
+
+
+        /* ==========================================
+           SHOW SECOND PAGE
+        =========================================== */
+
+        function revealWelcome() {
+
+            opened = true;
+
+
+            /* Move first page upward */
+
+            firstPage.style.transform =
+                "translateY(-100%)";
+
+            firstPage.style.opacity =
+                "0";
+
+
+            /* Move second page upward */
+
+            secondPage.style.transform =
+                "translateY(0)";
+
+            secondPage.style.opacity =
+                "1";
+
+        }
+
+
+
+        /* ==========================================
+           ENTER WHYFI
+        =========================================== */
+
+        function enterWhyFi() {
+
+            /*
+                This will open the next page.
+
+                Create a file named:
+
+                verification.html
+
+                in the same folder.
+            */
+
+            window.location.href =
+                "verification.html";
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
+```
+
 

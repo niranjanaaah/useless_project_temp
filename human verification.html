@@ -1,0 +1,742 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WhyFi — Human Verification</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        color: white;
+        overflow: hidden;
+
+        background:
+            radial-gradient(circle at 20% 20%, rgba(116, 48, 255, .25), transparent 30%),
+            radial-gradient(circle at 80% 80%, rgba(0, 140, 255, .20), transparent 30%),
+            #070611;
+    }
+
+    /* Animated background */
+    .background {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: -1;
+    }
+
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: .35;
+        animation: float 8s infinite alternate ease-in-out;
+    }
+
+    .orb.one {
+        width: 280px;
+        height: 280px;
+        background: #7b2cff;
+        top: -100px;
+        left: -80px;
+    }
+
+    .orb.two {
+        width: 300px;
+        height: 300px;
+        background: #006eff;
+        bottom: -120px;
+        right: -100px;
+        animation-delay: 2s;
+    }
+
+    @keyframes float {
+        from {
+            transform: translate(0,0);
+        }
+        to {
+            transform: translate(50px, -30px);
+        }
+    }
+
+    .grid {
+        position: absolute;
+        inset: 0;
+        opacity: .08;
+
+        background-image:
+            linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px);
+
+        background-size: 45px 45px;
+    }
+
+    /* Main */
+    .container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+    }
+
+    .verification-box {
+        width: 100%;
+        max-width: 520px;
+        padding: 42px;
+
+        border: 1px solid rgba(168, 110, 255, .35);
+        border-radius: 28px;
+
+        background: rgba(13, 10, 28, .72);
+        backdrop-filter: blur(25px);
+
+        box-shadow:
+            0 0 40px rgba(113, 54, 255, .18),
+            inset 0 0 30px rgba(110, 60, 255, .04);
+
+        animation: appear .7s ease;
+    }
+
+    @keyframes appear {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Logo */
+    .logo {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        color: #9d7cff;
+        margin-bottom: 30px;
+    }
+
+    .crystal {
+        font-size: 45px;
+        margin-bottom: 18px;
+        animation: crystalFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes crystalFloat {
+        0%,100% {
+            transform: translateY(0) rotate(-4deg);
+        }
+        50% {
+            transform: translateY(-8px) rotate(4deg);
+        }
+    }
+
+    h1 {
+        text-align: center;
+        font-size: clamp(25px, 5vw, 34px);
+        line-height: 1.2;
+        margin-bottom: 10px;
+
+        background: linear-gradient(
+            90deg,
+            #ffffff,
+            #bd9cff,
+            #6da8ff
+        );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #9691aa;
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    /* Question card */
+    .question-card {
+        padding: 24px;
+
+        border-radius: 20px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(125, 73, 255, .12),
+                rgba(22, 35, 80, .18)
+            );
+
+        border: 1px solid rgba(145, 100, 255, .25);
+
+        margin-bottom: 20px;
+    }
+
+    .question-number {
+        color: #8d6cff;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+    }
+
+    .question {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+    /* Options */
+    .options {
+        display: grid;
+        gap: 11px;
+        margin-top: 18px;
+    }
+
+    .option {
+        width: 100%;
+        padding: 15px 17px;
+
+        border: 1px solid rgba(255,255,255,.10);
+        border-radius: 14px;
+
+        background: rgba(255,255,255,.035);
+        color: #e7e4ef;
+
+        text-align: left;
+        font-size: 14px;
+        font-weight: 500;
+
+        cursor: pointer;
+
+        transition:
+            transform .2s ease,
+            border .2s ease,
+            background .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .option:hover {
+        transform: translateX(5px);
+        border-color: rgba(142, 92, 255, .65);
+        background: rgba(126, 75, 255, .12);
+        box-shadow: 0 0 18px rgba(111, 65, 255, .15);
+    }
+
+    .option.selected {
+        border-color: #8c5cff;
+        background: rgba(119, 67, 255, .20);
+        box-shadow: 0 0 20px rgba(119, 67, 255, .20);
+    }
+
+    .option.correct {
+        border-color: #35e6a0;
+        background: rgba(53, 230, 160, .12);
+    }
+
+    .option.wrong {
+        border-color: #ff5377;
+        background: rgba(255, 83, 119, .12);
+        animation: shake .3s;
+    }
+
+    @keyframes shake {
+        0%,100% { transform: translateX(0); }
+        25% { transform: translateX(-6px); }
+        75% { transform: translateX(6px); }
+    }
+
+    /* Verify button */
+    .verify-btn {
+        width: 100%;
+        padding: 16px;
+        margin-top: 5px;
+
+        border: none;
+        border-radius: 15px;
+
+        background: linear-gradient(
+            100deg,
+            #713cff,
+            #326cff
+        );
+
+        color: white;
+        font-size: 15px;
+        font-weight: 800;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 0 25px rgba(108, 65, 255, .30);
+
+        transition: .2s ease;
+    }
+
+    .verify-btn:hover {
+        transform: translateY(-3px);
+        box-shadow:
+            0 0 35px rgba(108, 65, 255, .50);
+    }
+
+    .verify-btn:active {
+        transform: scale(.97);
+    }
+
+    /* Progress */
+    .progress-area {
+        margin-top: 22px;
+    }
+
+    .progress-text {
+        display: flex;
+        justify-content: space-between;
+        color: #77728c;
+        font-size: 11px;
+        margin-bottom: 8px;
+    }
+
+    .progress-bar {
+        height: 4px;
+        border-radius: 10px;
+        background: rgba(255,255,255,.08);
+        overflow: hidden;
+    }
+
+    .progress {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #7c42ff, #3e8bff);
+        transition: width .4s ease;
+    }
+
+    /* Success */
+    .success {
+        display: none;
+        text-align: center;
+        animation: successAppear .6s ease;
+    }
+
+    @keyframes successAppear {
+        from {
+            opacity: 0;
+            transform: scale(.8);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .success-icon {
+        font-size: 70px;
+        margin-bottom: 20px;
+
+        filter:
+            drop-shadow(0 0 15px rgba(60,255,170,.5));
+
+        animation: successPop .7s ease;
+    }
+
+    @keyframes successPop {
+        0% {
+            transform: scale(0);
+        }
+        70% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .success h2 {
+        font-size: 27px;
+        margin-bottom: 12px;
+
+        color: #65ffbd;
+        text-shadow: 0 0 20px rgba(61,255,174,.3);
+    }
+
+    .brain {
+        color: #aaa4bb;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .continue-btn {
+        margin-top: 25px;
+        padding: 13px 25px;
+
+        border: 1px solid rgba(130, 92, 255, .5);
+        border-radius: 12px;
+
+        background: rgba(118, 69, 255, .12);
+        color: #d7c9ff;
+
+        cursor: pointer;
+    }
+
+    @media(max-width: 500px) {
+        .verification-box {
+            padding: 28px 20px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="grid"></div>
+</div>
+
+<div class="container">
+
+    <div class="verification-box">
+
+        <div class="logo">WHYFI // SECURITY SYSTEM</div>
+
+        <!-- Verification Screen -->
+        <div id="verification">
+
+            <div style="text-align:center;">
+                <div class="crystal">🔮</div>
+            </div>
+
+            <h1>Before we consult the WiFi spirits… 🤨</h1>
+
+            <p class="subtitle">
+                Prove you're human.
+            </p>
+
+            <div class="question-card">
+
+                <div class="question-number" id="questionNumber">
+                    HUMAN CHECK 01
+                </div>
+
+                <div class="question" id="question">
+                    Loading question...
+                </div>
+
+                <div class="options" id="options"></div>
+
+            </div>
+
+            <button class="verify-btn" onclick="verifyAnswer()">
+                Verify Me 🔮
+            </button>
+
+            <div class="progress-area">
+
+                <div class="progress-text">
+                    <span id="progressText">Question 1 of 5</span>
+                    <span id="percent">20%</span>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Success Screen -->
+        <div class="success" id="success">
+
+            <div class="success-icon">✅</div>
+
+            <h2>HUMAN CONFIRMED</h2>
+
+            <p class="brain">
+                Brain cells detected: approximately 3 🧠<br>
+                WiFi spirits have accepted your existence. 👻<br>
+                Access granted.
+            </p>
+
+            <button class="continue-btn" onclick="continueToWifi()">
+                Enter the WiFi Realm →
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+====================================================
+WHYFI HUMAN VERIFICATION QUESTIONS
+====================================================
+
+This array can later be replaced with questions
+coming from your backend API.
+
+Example backend response:
+
+[
+    {
+        question: "Your question",
+        options: ["A", "B", "C", "D"],
+        answer: 1
+    }
+]
+
+answer = index of correct option.
+====================================================
+*/
+
+const questions = [
+
+    {
+        question: "🍎 You have 3 apples. You take away 2. How many apples do YOU have?",
+        options: [
+            "1 apple",
+            "2 apples",
+            "3 apples",
+            "An iPhone"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "🐔 A chicken lays an egg on top of a roof. Which side does the egg roll?",
+        options: [
+            "Left",
+            "Right",
+            "Down the roof",
+            "Chickens don't lay eggs on roofs"
+        ],
+        answer: 3
+    },
+
+    {
+        question: "🧠 What has a face and two hands but no arms or legs?",
+        options: [
+            "A human",
+            "A clock",
+            "A suspicious potato",
+            "WiFi router"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "🌚 What gets bigger the more you take away from it?",
+        options: [
+            "Your homework",
+            "A hole",
+            "Your WiFi bill",
+            "Your ego"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "📱 Your WiFi suddenly stops working. What is the scientifically approved first step?",
+        options: [
+            "Restart the router",
+            "Cry",
+            "Turn airplane mode on and off",
+            "Blame the government"
+        ],
+        answer: 2
+    }
+
+];
+
+let currentQuestion = 0;
+let selectedAnswer = null;
+
+
+/* Load question */
+function loadQuestion() {
+
+    const q = questions[currentQuestion];
+
+    document.getElementById("question").textContent = q.question;
+
+    document.getElementById("questionNumber").textContent =
+        "HUMAN CHECK " +
+        String(currentQuestion + 1).padStart(2, "0");
+
+    const optionsContainer =
+        document.getElementById("options");
+
+    optionsContainer.innerHTML = "";
+
+    selectedAnswer = null;
+
+    q.options.forEach((option, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "option";
+
+        button.textContent = option;
+
+        button.onclick = function() {
+
+            document
+                .querySelectorAll(".option")
+                .forEach(btn =>
+                    btn.classList.remove("selected")
+                );
+
+            button.classList.add("selected");
+
+            selectedAnswer = index;
+        };
+
+        optionsContainer.appendChild(button);
+
+    });
+
+
+    /* Update progress */
+
+    const percentage =
+        Math.round(
+            ((currentQuestion + 1) / questions.length) * 100
+        );
+
+    document.getElementById("progress").style.width =
+        percentage + "%";
+
+    document.getElementById("progressText").textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+
+    document.getElementById("percent").textContent =
+        percentage + "%";
+}
+
+
+/* Verify answer */
+
+function verifyAnswer() {
+
+    if (selectedAnswer === null) {
+
+        alert("🤨 Please choose an answer first.");
+
+        return;
+    }
+
+    const correctAnswer =
+        questions[currentQuestion].answer;
+
+    const buttons =
+        document.querySelectorAll(".option");
+
+    /* Correct */
+
+    if (selectedAnswer === correctAnswer) {
+
+        buttons[selectedAnswer]
+            .classList.add("correct");
+
+        setTimeout(() => {
+
+            currentQuestion++;
+
+            if (currentQuestion >= questions.length) {
+
+                showSuccess();
+
+            } else {
+
+                loadQuestion();
+
+            }
+
+        }, 500);
+
+    }
+
+    /* Wrong */
+
+    else {
+
+        buttons[selectedAnswer]
+            .classList.add("wrong");
+
+        setTimeout(() => {
+
+            buttons[selectedAnswer]
+                .classList.remove("wrong");
+
+        }, 500);
+
+    }
+
+}
+
+
+/* Final success screen */
+
+function showSuccess() {
+
+    document.getElementById("verification").style.display =
+        "none";
+
+    document.getElementById("success").style.display =
+        "block";
+
+}
+
+
+/*
+----------------------------------------------------
+Connect this button to your next WhyFi page.
+----------------------------------------------------
+*/
+
+function continueToWifi() {
+
+    /*
+    Example:
+
+    window.location.href = "wifi.html";
+
+    Or if using React/router:
+
+    navigate("/wifi");
+
+    */
+
+    alert("🔮 The WiFi spirits await...");
+}
+
+
+/* Start */
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
+```
