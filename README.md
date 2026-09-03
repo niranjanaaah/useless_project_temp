@@ -14,21 +14,54 @@
 - Member 2: Devanandha Aroop -  Model Engineering College
 
 ### Project Description
+Have you ever connected to WiFi and wondered:
 
+"What does my WiFi connection say about my future?"
+
+Probably not.
+
+Traditional astrology requires things like your date of birth, zodiac sign, planets and other unnecessarily serious information. Meanwhile, your WiFi network name has been sitting there doing absolutely nothing.
+
+WhyFi solves this completely unnecessary problem by determining your destiny using WiFi and questionable astrology.
 
 ### The Problem (that doesn't exist)
 [What ridiculous problem are you solving?]
+People have plenty of ways to predict their future, but none of them use the one thing they actually connect to every day — WiFi. This creates a completely unnecessary problem: not knowing what your WiFi connection says about your destiny.
 
 ### The Solution (that nobody asked for)
 [How are you solving it? Keep it fun!]
+WhyFi is a ridiculous WiFi-based astrology and prediction platform that combines WiFi, human verification, personal inputs and completely unserious predictions.
+
+The user first proves that they are human by answering a random question. After verification, they provide their details and receive a completely arbitrary prediction/roast based on categories such as:
+
+📚 Engineering
+🎓 College
+📶 WiFi
+😴 Sleep
+❤️ Love/Life
+
+The predictions are intentionally humorous and have absolutely no scientific basis.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
 - [Languages used]
+- HTML
+- CSS
+- JavaScript
+- JSON
 - [Frameworks used]
+- Node.js
+- Express.js
 - [Libraries used]
+- Express.js
+- CORS
 - [Tools used]
+- Visual Studio Code
+- Git
+- GitHub
+- Render
+- Web Browser
 
 For Hardware:
 - [List main components]
@@ -39,9 +72,31 @@ For Hardware:
 For Software:
 # Installation
 [commands]
+Clone the repository:
+
+git clone https://github.com/niranjanaaah/useless_project_temp.git
+
+Navigate to the backend:
+
+cd useless_project_temp/backend
+
+Install the required dependencies:
+
+npm install
 
 # Run
 [commands]
+Start the backend server:
+
+node server.js
+
+The backend will run locally at:
+
+http://localhost:3000
+
+The deployed backend is available at:
+
+https://whyfi-backend.onrender.com
 
 ### Project Documentation
 For Software:
