@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WhyFi — Tell Us About You</title>
+
+
+    <!-- Fonts -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Italianno&family=Montserrat:wght@500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+           BODY
+        ===================================================== */
+
+        body {
+
+            min-height: 100vh;
+
+            background: #020202;
+
+            color: white;
+
+            font-family: 'Montserrat', sans-serif;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =====================================================
+           BACKGROUND GRID
+        ===================================================== */
+
+        .grid {
+
+            position: fixed;
+
+            inset: 0;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(255, 100, 32, 0.055) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    rgba(255, 100, 32, 0.055) 1px,
+                    transparent 1px
+                );
+
+            background-size: 45px 45px;
+
+            z-index: -3;
+
+        }
+
+
+        /* =====================================================
+           ORANGE GLOW
+        ===================================================== */
+
+        .glow {
+
+            position: fixed;
+
+            width: 500px;
+
+            height: 500px;
+
+            background: #ff6420;
+
+            filter: blur(190px);
+
+            opacity: 0.10;
+
+            border-radius: 50%;
+
+            z-index: -2;
+
+        }
+
+
+        /* =====================================================
+           VIGNETTE
+        ===================================================== */
+
+        .vignette {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+
+                radial-gradient(
+                    circle,
+                    transparent 25%,
+                    rgba(0, 0, 0, 0.88) 100%
+                );
+
+            z-index: -1;
+
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+           
+           NO BIG BOX / NO BORDER / NO BACKGROUND
+        ===================================================== */
+
+        .details-box {
+
+            width: min(650px, 90%);
+
+            padding: 30px 20px;
+
+            text-align: center;
+
+            animation: appear 0.8s ease;
+
+        }
+
+
+        @keyframes appear {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(25px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           WHYFI LOGO
+        ===================================================== */
+
+        .logo {
+
+            font-family: 'Italianno', cursive;
+
+            font-size: 72px;
+
+            font-weight: normal;
+
+            color: #ff6420;
+
+            text-shadow:
+
+                0 0 20px rgba(255, 100, 32, 0.5),
+
+                0 0 45px rgba(255, 100, 32, 0.2);
+
+            margin-bottom: 3px;
+
+        }
+
+
+        /* =====================================================
+           SMALL TITLE
+        ===================================================== */
+
+        .subtitle {
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 5px;
+
+            color: #ff6420;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        /* =====================================================
+           MAIN HEADING
+        ===================================================== */
+
+        h1 {
+
+            font-family: 'Italianno', cursive;
+
+            font-size: 52px;
+
+            font-weight: normal;
+
+            color: #ffffff;
+
+            margin-bottom: 8px;
+
+            text-shadow:
+
+                0 0 15px rgba(255,255,255,0.15);
+
+        }
+
+
+        /* =====================================================
+           DESCRIPTION
+        ===================================================== */
+
+        .description {
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            line-height: 1.8;
+
+            color: rgba(255,255,255,0.9);
+
+            margin-bottom: 35px;
+
+        }
+
+
+        /* =====================================================
+           FORM GROUP
+        ===================================================== */
+
+        .form-group {
+
+            text-align: left;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        /* =====================================================
+           LABELS
+        ===================================================== */
+
+        label {
+
+            display: block;
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            letter-spacing: 2px;
+
+            color: #ffffff;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        /* =====================================================
+           INPUTS
+        ===================================================== */
+
+        input[type="text"],
+        input[type="date"] {
+
+            width: 100%;
+
+            padding: 16px 18px;
+
+            background: rgba(255,255,255,0.035);
+
+            border: 1px solid rgba(255,255,255,0.32);
+
+            outline: none;
+
+            color: white;
+
+            font-family: 'Montserrat', sans-serif;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+
+        }
+
+
+        input::placeholder {
+
+            color: rgba(255,255,255,0.45);
+
+        }
+
+
+        input:focus {
+
+            border-color: #ff6420;
+
+            box-shadow:
+
+                0 0 18px rgba(255,100,32,0.18),
+
+                0 0 35px rgba(255,100,32,0.05);
+
+            background:
+
+                rgba(255,100,32,0.04);
+
+        }
+
+
+        /* Date icon */
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+
+            filter: invert(1);
+
+            cursor: pointer;
+
+        }
+
+
+        /* =====================================================
+           GENDER
+        ===================================================== */
+
+        .gender-options {
+
+            display: flex;
+
+            gap: 12px;
+
+            width: 100%;
+
+        }
+
+
+        .gender-option {
+
+            flex: 1;
+
+            position: relative;
+
+        }
+
+
+        /* Hide actual radio */
+
+        .gender-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+        }
+
+
+        /* Gender buttons */
+
+        .gender-option label {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 16px 10px;
+
+            margin: 0;
+
+            border: 1px solid rgba(255,255,255,0.32);
+
+            background: rgba(255,255,255,0.035);
+
+            color: rgba(255,255,255,0.95);
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+        }
+
+
+        .gender-option label:hover {
+
+            border-color: #ff6420;
+
+            background:
+
+                rgba(255,100,32,0.08);
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* Selected gender */
+
+        .gender-option input:checked + label {
+
+            border-color: #ff6420;
+
+            background:
+
+                rgba(255,100,32,0.16);
+
+            color: #ff6420;
+
+            box-shadow:
+
+                0 0 18px rgba(255,100,32,0.2);
+
+        }
+
+
+        /* =====================================================
+           ERROR MESSAGE
+        ===================================================== */
+
+        .error {
+
+            display: none;
+
+            margin-top: 5px;
+
+            margin-bottom: 15px;
+
+            color: #ff6420;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        /* =====================================================
+           CONTINUE BUTTON
+        ===================================================== */
+
+        .continue-button {
+
+            width: 100%;
+
+            padding: 17px;
+
+            margin-top: 5px;
+
+            background: #ff6420;
+
+            border: 2px solid #ff6420;
+
+            color: #050505;
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: 4px;
+
+            cursor: pointer;
+
+            box-shadow:
+
+                0 0 20px rgba(255,100,32,0.35),
+
+                0 0 45px rgba(255,100,32,0.08);
+
+            transition: 0.25s;
+
+        }
+
+
+        .continue-button:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+
+                0 0 30px rgba(255,100,32,0.55),
+
+                0 0 60px rgba(255,100,32,0.15);
+
+        }
+
+
+        .continue-button:active {
+
+            transform: scale(0.98);
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media(max-width:600px) {
+
+            body {
+
+                align-items: flex-start;
+
+                padding-top: 40px;
+
+            }
+
+
+            .details-box {
+
+                width: 92%;
+
+                padding: 20px 5px 40px;
+
+            }
+
+
+            .logo {
+
+                font-size: 60px;
+
+            }
+
+
+            h1 {
+
+                font-size: 43px;
+
+            }
+
+
+            .description {
+
+                font-size: 12px;
+
+            }
+
+
+            .gender-options {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Background -->
+
+    <div class="grid"></div>
+
+    <div class="glow"></div>
+
+    <div class="vignette"></div>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="details-box">
+
+
+        <!-- Logo -->
+
+        <div class="logo">
+            WhyFi
+        </div>
+
+
+        <div class="subtitle">
+            CONNECTION DETECTED
+        </div>
+
+
+        <!-- Heading -->
+
+        <h1>
+            Tell Us About You
+        </h1>
+
+
+        <p class="description">
+
+            The internet has accepted your humanity.
+            <br>
+
+            Now we need a few completely unnecessary
+            <br>
+
+            details to determine your destiny.
+
+        </p>
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form id="detailsForm">
+
+
+            <!-- WIFI NAME -->
+
+            <div class="form-group">
+
+                <label for="wifiName">
+
+                    WIFI / INTERNET NAME
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="wifiName"
+                    name="wifiName"
+                    placeholder="Enter your WiFi or internet name"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DATE OF BIRTH -->
+
+            <div class="form-group">
+
+                <label for="dob">
+
+                    DATE OF BIRTH
+
+                </label>
+
+
+                <input
+                    type="date"
+                    id="dob"
+                    name="dob"
+                    required
+                >
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="form-group">
+
+                <label>
+
+                    GENDER
+
+                </label>
+
+
+                <div class="gender-options">
+
+
+                    <!-- MALE -->
+
+                    <div class="gender-option">
+
+                        <input
+                            type="radio"
+                            id="male"
+                            name="gender"
+                            value="Male"
+                            required
+                        >
+
+                        <label for="male">
+
+                            MALE
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- FEMALE -->
+
+                    <div class="gender-option">
+
+                        <input
+                            type="radio"
+                            id="female"
+                            name="gender"
+                            value="Female"
+                        >
+
+                        <label for="female">
+
+                            FEMALE
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- OTHERS -->
+
+                    <div class="gender-option">
+
+                        <input
+                            type="radio"
+                            id="others"
+                            name="gender"
+                            value="Others"
+                        >
+
+                        <label for="others">
+
+                            OTHERS
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div
+                id="errorMessage"
+                class="error"
+            >
+
+                PLEASE COMPLETE ALL DETAILS
+
+            </div>
+
+
+            <!-- CONTINUE -->
+
+            <button
+                type="submit"
+                class="continue-button"
+            >
+
+                CONTINUE →
+
+            </button>
+
+
+        </form>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+
+        /*
+        ======================================================
+        FORM SUBMISSION
+        ======================================================
+        */
+
+        document
+            .getElementById("detailsForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    /*
+                    ==========================================
+                    GET USER DATA
+                    ==========================================
+                    */
+
+                    const wifiName =
+                        document
+                            .getElementById("wifiName")
+                            .value
+                            .trim();
+
+
+                    const dob =
+                        document
+                            .getElementById("dob")
+                            .value;
+
+
+                    const gender =
+                        document.querySelector(
+                            'input[name="gender"]:checked'
+                        );
+
+
+                    /*
+                    ==========================================
+                    VALIDATION
+                    ==========================================
+                    */
+
+                    if (
+                        wifiName === "" ||
+                        dob === "" ||
+                        !gender
+                    ) {
+
+                        document
+                            .getElementById("errorMessage")
+                            .style.display = "block";
+
+                        return;
+
+                    }
+
+
+                    /*
+                    ==========================================
+                    TEMPORARY STORAGE
+
+                    These values can later be sent
+                    directly to your backend.
+
+                    ==========================================
+                    */
+
+                    sessionStorage.setItem(
+                        "wifiName",
+                        wifiName
+                    );
+
+
+                    sessionStorage.setItem(
+                        "dob",
+                        dob
+                    );
+
+
+                    sessionStorage.setItem(
+                        "gender",
+                        gender.value
+                    );
+
+
+                    /*
+                    ==========================================
+                    MOVE TO RESULT PAGE
+                    ==========================================
+                    */
+
+                    window.location.href =
+                        "result.html";
+
+                }
+            );
+
+
+    </script>
+
+
+</body>
+
+</html>
+

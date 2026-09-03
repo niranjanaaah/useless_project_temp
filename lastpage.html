@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WhyFi — Welcome To Tomorrow</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Italianno&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #020202;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ORANGE GRID */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,100,32,0.055) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,100,32,0.055) 1px,
+                    transparent 1px
+                );
+
+            background-size: 45px 45px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+
+        /* ORANGE GLOW */
+
+        .glow {
+            position: fixed;
+
+            width: 500px;
+            height: 500px;
+
+            background: #ff6420;
+
+            opacity: 0.08;
+
+            filter: blur(150px);
+
+            border-radius: 50%;
+
+            top: 20%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            pointer-events: none;
+        }
+
+
+        /* VIGNETTE */
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+
+            box-shadow:
+                inset 0 0 180px rgba(0,0,0,0.95);
+
+            pointer-events: none;
+            z-index: 1;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .container {
+
+            width: 92%;
+            max-width: 950px;
+
+            margin: auto;
+
+            padding: 55px 20px 70px;
+
+            text-align: center;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* LOGO */
+
+        .logo {
+
+            font-family: 'Italianno', cursive;
+
+            font-size: 52px;
+
+            color: #ff6420;
+
+            text-shadow:
+                0 0 10px rgba(255,100,32,0.5),
+                0 0 25px rgba(255,100,32,0.3);
+
+            margin-bottom: 12px;
+        }
+
+
+        /* MAIN HEADING */
+
+        h1 {
+
+            font-family: 'Cinzel', serif;
+
+            font-size: clamp(32px, 7vw, 70px);
+
+            font-weight: 700;
+
+            font-style: italic;
+
+            letter-spacing: 0.18em;
+
+            line-height: 1.35;
+
+            color: #ffffff;
+
+            text-shadow:
+                0 0 10px rgba(255,255,255,0.4),
+                0 0 25px rgba(255,100,32,0.55);
+
+            margin-bottom: 18px;
+
+            animation:
+                titleReveal 1.5s ease forwards,
+                titleGlow 2.5s ease-in-out infinite alternate;
+        }
+
+
+        /* HEADING ANIMATION */
+
+        @keyframes titleReveal {
+
+            0% {
+                opacity: 0;
+                transform: translateY(-25px) scale(0.9);
+                letter-spacing: 0.45em;
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                letter-spacing: 0.18em;
+            }
+        }
+
+
+        @keyframes titleGlow {
+
+            from {
+                text-shadow:
+                    0 0 8px rgba(255,255,255,0.3),
+                    0 0 18px rgba(255,100,32,0.3);
+            }
+
+            to {
+                text-shadow:
+                    0 0 15px rgba(255,255,255,0.5),
+                    0 0 35px rgba(255,100,32,0.75);
+            }
+        }
+
+
+        /* DIVIDER */
+
+        .divider {
+
+            width: 130px;
+
+            height: 2px;
+
+            background: #ff6420;
+
+            margin: 0 auto 35px;
+
+            box-shadow:
+                0 0 10px #ff6420,
+                0 0 25px rgba(255,100,32,0.5);
+
+            animation: dividerGrow 1.5s ease;
+        }
+
+
+        @keyframes dividerGrow {
+
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 130px;
+            }
+        }
+
+
+        /* LOADING */
+
+        #loadingArea {
+
+            margin-top: 45px;
+
+            animation: fadeIn 1s ease;
+        }
+
+
+        .spinner {
+
+            width: 52px;
+            height: 52px;
+
+            border: 3px solid rgba(255,100,32,0.2);
+
+            border-top: 3px solid #ff6420;
+
+            border-radius: 50%;
+
+            margin: 0 auto 25px;
+
+            animation: spin 1s linear infinite;
+
+            box-shadow:
+                0 0 20px rgba(255,100,32,0.35);
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        #loadingText {
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.08em;
+
+            color: white;
+        }
+
+
+        /* PREDICTION AREA */
+
+        #predictionArea {
+
+            display: none;
+
+            animation: predictionReveal 1s ease;
+        }
+
+
+        @keyframes predictionReveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .prediction-label {
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.15em;
+
+            color: #ff6420;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* PREDICTION BOXES */
+
+        #predictionText {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 20px;
+
+            text-align: left;
+        }
+
+
+        .prediction-box {
+
+            border: 1px solid rgba(255,100,32,0.75);
+
+            border-radius: 22px;
+
+            padding: 25px 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,100,32,0.07),
+                    rgba(0,0,0,0.35)
+                );
+
+            box-shadow:
+                0 0 15px rgba(255,100,32,0.12),
+                inset 0 0 20px rgba(255,100,32,0.025);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+
+            animation: boxReveal 0.7s ease forwards;
+
+            opacity: 0;
+        }
+
+
+        .prediction-box:hover {
+
+            transform: translateY(-5px);
+
+            border-color: #ff6420;
+
+            box-shadow:
+                0 0 20px rgba(255,100,32,0.3),
+                inset 0 0 25px rgba(255,100,32,0.05);
+        }
+
+
+        @keyframes boxReveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .prediction-topic {
+
+            font-family: 'Cinzel', serif;
+
+            color: #ff6420;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.08em;
+
+            margin-bottom: 12px;
+
+            text-shadow:
+                0 0 10px rgba(255,100,32,0.4);
+        }
+
+
+        .prediction-content {
+
+            color: #ffffff;
+
+            font-size: 16px;
+
+            font-weight: 500;
+
+            line-height: 1.8;
+
+            text-shadow:
+                0 0 8px rgba(255,255,255,0.12);
+        }
+
+
+        /* BOTTOM BUTTONS */
+
+        .button-area {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 18px;
+
+            margin-top: 45px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .action-button {
+
+            padding: 15px 38px;
+
+            border-radius: 8px;
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.12em;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+
+        /* GO BACK */
+
+        .back-button {
+
+            background: transparent;
+
+            color: #ff6420;
+
+            border: 2px solid #ff6420;
+
+            box-shadow:
+                0 0 12px rgba(255,100,32,0.25);
+        }
+
+
+        .back-button:hover {
+
+            background: rgba(255,100,32,0.1);
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 0 20px rgba(255,100,32,0.5);
+        }
+
+
+        /* THANK YOU */
+
+        .thank-button {
+
+            background: #ff6420;
+
+            color: white;
+
+            border: 2px solid #ff6420;
+
+            box-shadow:
+                0 0 15px rgba(255,100,32,0.45);
+        }
+
+
+        .thank-button:hover {
+
+            background: #ff7b42;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 0 25px rgba(255,100,32,0.7);
+        }
+
+
+        /* ERROR */
+
+        #errorArea {
+
+            display: none;
+
+            color: #ff6420;
+
+            font-family: 'Cinzel', serif;
+
+            font-weight: 600;
+
+            font-size: 16px;
+
+            line-height: 1.8;
+
+            margin-top: 30px;
+        }
+
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 40px 10px 60px;
+            }
+
+            .logo {
+                font-size: 42px;
+            }
+
+            h1 {
+                font-size: 32px;
+                letter-spacing: 0.10em;
+            }
+
+            .prediction-box {
+                padding: 21px;
+                border-radius: 18px;
+            }
+
+            .prediction-topic {
+                font-size: 15px;
+            }
+
+            .prediction-content {
+                font-size: 15px;
+            }
+
+            .button-area {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-button {
+                width: 85%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="glow"></div>
+
+    <div class="vignette"></div>
+
+
+    <main class="container">
+
+        <div class="logo">
+            WhyFi
+        </div>
+
+
+        <h1>
+            WELCOME&nbsp;&nbsp;TO&nbsp;&nbsp;TOMORROW
+        </h1>
+
+
+        <div class="divider"></div>
+
+
+        <!-- LOADING -->
+
+        <section id="loadingArea">
+
+            <div class="spinner"></div>
+
+            <p id="loadingText">
+                Consulting the WiFi spirits...
+            </p>
+
+        </section>
+
+
+        <!-- PREDICTIONS -->
+
+        <section id="predictionArea">
+
+            <div class="prediction-label">
+                YOUR COMPLETELY ACCURATE FUTURE
+            </div>
+
+
+            <!-- Backend predictions appear here -->
+
+            <div id="predictionText"></div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-area">
+
+                <button
+                    class="action-button back-button"
+                    onclick="goBack()">
+
+                    ← GO BACK
+
+                </button>
+
+
+                <button
+                    class="action-button thank-button"
+                    onclick="sayThankYou()">
+
+                    NEXT →
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ERROR -->
+
+        <section id="errorArea">
+
+            THE FUTURE IS CURRENTLY BUFFERING...
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        const PREDICTION_API = "/api/prediction";
+
+
+        /* FUNNY LOADING MESSAGES */
+
+        const loadingMessages = [
+
+            "Consulting the WiFi spirits...",
+
+            "Reading the digital stars...",
+
+            "Analyzing suspicious internet activity...",
+
+            "Checking your future with Google...",
+
+            "Calculating your destiny using absolutely no science...",
+
+            "Asking the router about your future...",
+
+            "Downloading your destiny...",
+
+            "Looking into the extremely questionable future..."
+
+        ];
+
+
+        let loadingIndex = 0;
+
+
+        const loadingText =
+            document.getElementById("loadingText");
+
+
+        const loadingInterval =
+            setInterval(function () {
+
+                loadingIndex++;
+
+                if (
+                    loadingIndex >=
+                    loadingMessages.length
+                ) {
+                    loadingIndex = 0;
+                }
+
+                loadingText.textContent =
+                    loadingMessages[loadingIndex];
+
+            }, 1500);
+
+
+
+        /* GET PREDICTION FROM BACKEND */
+
+        async function loadPrediction() {
+
+            try {
+
+                const wifiName =
+                    sessionStorage.getItem("wifiName");
+
+                const dob =
+                    sessionStorage.getItem("dob");
+
+                const gender =
+                    sessionStorage.getItem("gender");
+
+
+                const response = await fetch(
+                    PREDICTION_API,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            wifiName: wifiName,
+
+                            dob: dob,
+
+                            gender: gender
+
+                        })
+                    }
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Prediction request failed"
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !data.predictions ||
+                    !Array.isArray(data.predictions)
+                ) {
+
+                    throw new Error(
+                        "Invalid prediction format"
+                    );
+
+                }
+
+
+                clearInterval(
+                    loadingInterval
+                );
+
+
+                document.getElementById(
+                    "loadingArea"
+                ).style.display = "none";
+
+
+                document.getElementById(
+                    "predictionArea"
+                ).style.display = "block";
+
+
+                displayPredictions(
+                    data.predictions
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Prediction error:",
+                    error
+                );
+
+
+                clearInterval(
+                    loadingInterval
+                );
+
+
+                document.getElementById(
+                    "loadingArea"
+                ).style.display = "none";
+
+
+                document.getElementById(
+                    "errorArea"
+                ).style.display = "block";
+
+            }
+
+        }
+
+
+
+        /* DISPLAY BACKEND PREDICTIONS */
+
+        function displayPredictions(
+            predictions
+        ) {
+
+            const container =
+                document.getElementById(
+                    "predictionText"
+                );
+
+
+            container.innerHTML = "";
+
+
+            predictions.forEach(
+                function(item, index) {
+
+                    const box =
+                        document.createElement("div");
+
+
+                    box.className =
+                        "prediction-box";
+
+
+                    /*
+                        Each box receives a small
+                        animation delay.
+                    */
+
+                    box.style.animationDelay =
+                        (index * 0.15) + "s";
+
+
+                    const topic =
+                        document.createElement("div");
+
+
+                    topic.className =
+                        "prediction-topic";
+
+
+                    topic.textContent =
+                        item.topic || "YOUR FUTURE";
+
+
+                    const content =
+                        document.createElement("div");
+
+
+                    content.className =
+                        "prediction-content";
+
+
+                    content.textContent =
+                        item.prediction || "";
+
+
+                    box.appendChild(topic);
+
+                    box.appendChild(content);
+
+
+                    container.appendChild(box);
+
+                }
+            );
+
+        }
+
+
+
+        /* GO BACK TO INITIAL PAGE */
+
+        function goBack() {
+
+            sessionStorage.clear();
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+
+        /* NEXT = THANK YOU + EXIT */
+
+        function sayThankYou() {
+
+            document.body.innerHTML = `
+
+                <div style="
+                    min-height:100vh;
+                    background:#020202;
+                    color:white;
+                    display:flex;
+                    flex-direction:column;
+                    justify-content:center;
+                    align-items:center;
+                    text-align:center;
+                    font-family:Montserrat,sans-serif;
+                    padding:30px;
+                ">
+
+                    <div style="
+                        font-family:Italianno,cursive;
+                        font-size:65px;
+                        color:#ff6420;
+                        text-shadow:0 0 25px rgba(255,100,32,0.6);
+                        margin-bottom:20px;
+                    ">
+                        WhyFi
+                    </div>
+
+                    <h2 style="
+                        font-family:Cinzel,serif;
+                        font-size:clamp(30px,6vw,55px);
+                        font-style:italic;
+                        letter-spacing:0.12em;
+                        margin-bottom:20px;
+                    ">
+                        THANK YOU
+                    </h2>
+
+                    <p style="
+                        font-size:16px;
+                        line-height:1.8;
+                        color:#ffffff;
+                        max-width:600px;
+                    ">
+                        Your future has been successfully
+                        predicted with absolutely no scientific evidence.
+                        <br><br>
+                        You may now return to reality.
+                    </p>
+
+                    <p style="
+                        margin-top:35px;
+                        color:#ff6420;
+                        font-family:Cinzel,serif;
+                        font-size:13px;
+                        letter-spacing:0.12em;
+                    ">
+                        CONNECTION TERMINATED
+                    </p>
+
+                </div>
+
+            `;
+
+            /*
+                Attempt to leave the website.
+
+                Browsers normally prevent a webpage
+                from closing itself if it was not
+                opened by JavaScript.
+            */
+
+            setTimeout(function() {
+
+                window.close();
+
+            }, 2500);
+
+        }
+
+
+        /* START */
+
+        loadPrediction();
+
+    </script>
+
+</body>
+
+</html>
+
+
