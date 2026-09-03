@@ -22,10 +22,10 @@ app.get("/", (req, res) => {
 
 
 // ==========================================
-// GET RANDOM HUMAN VERIFICATION QUESTION
+// HUMAN VERIFICATION ROUTES
 // ==========================================
 
-app.get("/api/question", (req, res) => {
+app.get("/api/questions", (req, res) => {
 
     const randomQuestion =
         questions[Math.floor(Math.random() * questions.length)];
@@ -38,17 +38,13 @@ app.get("/api/question", (req, res) => {
 });
 
 
-// ==========================================
-// VERIFY USER'S ANSWER
-// ==========================================
-
 app.post("/api/verify", (req, res) => {
 
     const { questionId, answer } = req.body;
 
-    const question = questions.find(q => q.id === questionId);
+    const question =
+        questions.find(q => q.id === questionId);
 
-    // Question doesn't exist
     if (!question) {
         return res.status(404).json({
             success: false,
@@ -56,7 +52,6 @@ app.post("/api/verify", (req, res) => {
         });
     }
 
-    // Correct answer
     if (answer === question.answer) {
         return res.json({
             success: true,
@@ -64,7 +59,6 @@ app.post("/api/verify", (req, res) => {
         });
     }
 
-    // Wrong answer
     return res.json({
         success: false,
         message: "Wrong answer. Are you even human? 🤨"
@@ -73,17 +67,65 @@ app.post("/api/verify", (req, res) => {
 
 
 // ==========================================
-// GET RANDOM ASTROLOGY PREDICTION
+// WHYFI PREDICTIONS
+// ==========================================
+
+app.post("/api/predictions", (req, res) => {
+
+    const { wifiName, dob } = req.body;
+
+    // Check required details
+    if (!wifiName || !dob) {
+        return res.status(400).json({
+            success: false,
+            message: "WiFi name and date of birth are required."
+        });
+    }
+
+    // Get all categories
+    const categories = Object.keys(predictions);
+
+    // Pick one random prediction from each category
+    const selectedPredictions = [];
+
+    categories.forEach(category => {
+
+        const list = predictions[category];
+
+        if (Array.isArray(list) && list.length > 0) {
+
+            const randomPrediction =
+                list[Math.floor(Math.random() * list.length)];
+
+            selectedPredictions.push(randomPrediction);
+        }
+
+    });
+
+    // Shuffle predictions
+    selectedPredictions.sort(
+        () => Math.random() - 0.5
+    );
+
+    // Send ONLY prediction text
+    res.json({
+        success: true,
+        predictions: selectedPredictions
+    });
+
+});
+
+
+// ==========================================
+// OLD SINGLE CATEGORY PREDICTION ROUTE
 // ==========================================
 
 app.get("/api/prediction/:category", (req, res) => {
 
     const category = req.params.category;
 
-    // Get predictions for requested category
     const list = predictions[category];
 
-    // Category doesn't exist
     if (!list) {
         return res.status(404).json({
             success: false,
@@ -91,7 +133,6 @@ app.get("/api/prediction/:category", (req, res) => {
         });
     }
 
-    // Pick random prediction
     const randomPrediction =
         list[Math.floor(Math.random() * list.length)];
 
@@ -100,6 +141,7 @@ app.get("/api/prediction/:category", (req, res) => {
         category: category,
         prediction: randomPrediction
     });
+
 });
 
 
@@ -110,5 +152,7 @@ app.get("/api/prediction/:category", (req, res) => {
 const PORT = 3000;
 
 app.listen(PORT, () => {
-    console.log(`🔮 WhyFi Backend running on http://localhost:${PORT}`);
+    console.log(
+        `🔮 WhyFi Backend running on http://localhost:${PORT}`
+    );
 });

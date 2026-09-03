@@ -1,13 +1,17 @@
+<```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>WhyFi — Welcome To Tomorrow</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Italianno&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Italianno&family=Montserrat:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <style>
 
@@ -17,6 +21,7 @@
             padding: 0;
         }
 
+
         body {
             min-height: 100vh;
             background: #020202;
@@ -25,6 +30,7 @@
             overflow-x: hidden;
             position: relative;
         }
+
 
         /* ORANGE GRID */
 
@@ -384,24 +390,7 @@
         }
 
 
-        .prediction-topic {
-
-            font-family: 'Cinzel', serif;
-
-            color: #ff6420;
-
-            font-size: 17px;
-
-            font-weight: 700;
-
-            letter-spacing: 0.08em;
-
-            margin-bottom: 12px;
-
-            text-shadow:
-                0 0 10px rgba(255,100,32,0.4);
-        }
-
+        /* ONLY THE PREDICTION TEXT */
 
         .prediction-content {
 
@@ -480,7 +469,7 @@
         }
 
 
-        /* THANK YOU */
+        /* NEXT */
 
         .thank-button {
 
@@ -546,10 +535,6 @@
                 border-radius: 18px;
             }
 
-            .prediction-topic {
-                font-size: 15px;
-            }
-
             .prediction-content {
                 font-size: 15px;
             }
@@ -562,6 +547,7 @@
             .action-button {
                 width: 85%;
             }
+
         }
 
     </style>
@@ -613,7 +599,7 @@
             </div>
 
 
-            <!-- Backend predictions appear here -->
+            <!-- Predictions from backend -->
 
             <div id="predictionText"></div>
 
@@ -657,10 +643,22 @@
 
     <script>
 
-        const PREDICTION_API = "/api/prediction";
+
+        /*
+        ======================================================
+        BACKEND API
+        ======================================================
+        */
+
+        const PREDICTION_API =
+            "http://localhost:3000/api/predictions";
 
 
-        /* FUNNY LOADING MESSAGES */
+        /*
+        ======================================================
+        FUNNY LOADING MESSAGES
+        ======================================================
+        */
 
         const loadingMessages = [
 
@@ -691,7 +689,7 @@
 
 
         const loadingInterval =
-            setInterval(function () {
+            setInterval(function() {
 
                 loadingIndex++;
 
@@ -699,7 +697,9 @@
                     loadingIndex >=
                     loadingMessages.length
                 ) {
+
                     loadingIndex = 0;
+
                 }
 
                 loadingText.textContent =
@@ -708,8 +708,11 @@
             }, 1500);
 
 
-
-        /* GET PREDICTION FROM BACKEND */
+        /*
+        ======================================================
+        GET USER DETAILS
+        ======================================================
+        */
 
         async function loadPrediction() {
 
@@ -718,12 +721,31 @@
                 const wifiName =
                     sessionStorage.getItem("wifiName");
 
+
                 const dob =
                     sessionStorage.getItem("dob");
 
-                const gender =
-                    sessionStorage.getItem("gender");
 
+                /*
+                ==============================================
+                CHECK DETAILS
+                ==============================================
+                */
+
+                if (!wifiName || !dob) {
+
+                    throw new Error(
+                        "User details not found"
+                    );
+
+                }
+
+
+                /*
+                ==============================================
+                SEND DATA TO BACKEND
+                ==============================================
+                */
 
                 const response = await fetch(
                     PREDICTION_API,
@@ -738,14 +760,18 @@
 
                             wifiName: wifiName,
 
-                            dob: dob,
-
-                            gender: gender
+                            dob: dob
 
                         })
                     }
                 );
 
+
+                /*
+                ==============================================
+                CHECK RESPONSE
+                ==============================================
+                */
 
                 if (!response.ok) {
 
@@ -760,8 +786,14 @@
                     await response.json();
 
 
+                /*
+                ==============================================
+                CHECK PREDICTIONS
+                ==============================================
+                */
+
                 if (
-                    !data.predictions ||
+                    !data.success ||
                     !Array.isArray(data.predictions)
                 ) {
 
@@ -772,6 +804,12 @@
                 }
 
 
+                /*
+                ==============================================
+                STOP LOADING
+                ==============================================
+                */
+
                 clearInterval(
                     loadingInterval
                 );
@@ -781,6 +819,12 @@
                     "loadingArea"
                 ).style.display = "none";
 
+
+                /*
+                ==============================================
+                SHOW PREDICTIONS
+                ==============================================
+                */
 
                 document.getElementById(
                     "predictionArea"
@@ -820,8 +864,11 @@
         }
 
 
-
-        /* DISPLAY BACKEND PREDICTIONS */
+        /*
+        ======================================================
+        DISPLAY PREDICTIONS
+        ======================================================
+        */
 
         function displayPredictions(
             predictions
@@ -837,10 +884,12 @@
 
 
             predictions.forEach(
-                function(item, index) {
+                function(prediction, index) {
 
                     const box =
-                        document.createElement("div");
+                        document.createElement(
+                            "div"
+                        );
 
 
                     box.className =
@@ -848,44 +897,40 @@
 
 
                     /*
-                        Each box receives a small
-                        animation delay.
+                    Small staggered animation
                     */
 
                     box.style.animationDelay =
                         (index * 0.15) + "s";
 
 
-                    const topic =
-                        document.createElement("div");
-
-
-                    topic.className =
-                        "prediction-topic";
-
-
-                    topic.textContent =
-                        item.topic || "YOUR FUTURE";
-
-
                     const content =
-                        document.createElement("div");
+                        document.createElement(
+                            "div"
+                        );
 
 
                     content.className =
                         "prediction-content";
 
 
+                    /*
+                    ONLY TEXT IS DISPLAYED.
+                    NO CATEGORY NAME.
+                    */
+
                     content.textContent =
-                        item.prediction || "";
+                        prediction;
 
 
-                    box.appendChild(topic);
+                    box.appendChild(
+                        content
+                    );
 
-                    box.appendChild(content);
 
-
-                    container.appendChild(box);
+                    container.appendChild(
+                        box
+                    );
 
                 }
             );
@@ -893,8 +938,11 @@
         }
 
 
-
-        /* GO BACK TO INITIAL PAGE */
+        /*
+        ======================================================
+        GO BACK
+        ======================================================
+        */
 
         function goBack() {
 
@@ -906,8 +954,11 @@
         }
 
 
-
-        /* NEXT = THANK YOU + EXIT */
+        /*
+        ======================================================
+        NEXT / THANK YOU
+        ======================================================
+        */
 
         function sayThankYou() {
 
@@ -972,13 +1023,6 @@
 
             `;
 
-            /*
-                Attempt to leave the website.
-
-                Browsers normally prevent a webpage
-                from closing itself if it was not
-                opened by JavaScript.
-            */
 
             setTimeout(function() {
 
@@ -989,7 +1033,11 @@
         }
 
 
-        /* START */
+        /*
+        ======================================================
+        START
+        ======================================================
+        */
 
         loadPrediction();
 
@@ -998,5 +1046,4 @@
 </body>
 
 </html>
-
-
+```

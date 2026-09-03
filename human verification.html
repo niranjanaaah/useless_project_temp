@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,401 +6,520 @@
 
     <title>WhyFi — Human Verification</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Italianno&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-
     <style>
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
             min-height: 100vh;
-            background: #020202;
+            background:
+                radial-gradient(circle at 50% 30%, #32150a 0%, #120805 35%, #050505 75%);
             color: white;
-            font-family: 'Montserrat', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        /* Background */
+        /* Background grid */
 
-        .grid {
+        body::before {
+            content: "";
             position: fixed;
             inset: 0;
+
             background-image:
-                linear-gradient(rgba(255, 100, 32, 0.06) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 100, 32, 0.06) 1px, transparent 1px);
-            background-size: 45px 45px;
-            z-index: -3;
+                linear-gradient(rgba(255, 100, 30, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 100, 30, 0.04) 1px, transparent 1px);
+
+            background-size: 40px 40px;
+
+            pointer-events: none;
         }
 
-        .glow {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: #ff6420;
-            filter: blur(180px);
-            opacity: 0.10;
-            border-radius: 50%;
-            z-index: -2;
-        }
+        /* Dark vignette */
 
-        .vignette {
+        body::after {
+            content: "";
             position: fixed;
             inset: 0;
-            background: radial-gradient(
-                circle,
-                transparent 30%,
-                rgba(0,0,0,0.8) 100%
-            );
-            z-index: -1;
+
+            background:
+                radial-gradient(
+                    circle,
+                    transparent 35%,
+                    rgba(0, 0, 0, 0.8) 100%
+                );
+
+            pointer-events: none;
         }
 
-        /* Main Box */
+        .container {
+            width: 90%;
+            max-width: 650px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Main verification box */
 
         .verification-box {
-            width: min(700px, 90%);
-            padding: 45px 35px;
-            text-align: center;
+            background: rgba(12, 12, 12, 0.95);
 
-            border: 1px solid rgba(255, 100, 32, 0.45);
-            background: rgba(0,0,0,0.75);
+            border: 1px solid rgba(255, 100, 30, 0.45);
 
             box-shadow:
-                0 0 50px rgba(255,100,32,0.08),
-                inset 0 0 40px rgba(255,100,32,0.03);
+                0 0 40px rgba(255, 80, 20, 0.15),
+                inset 0 0 30px rgba(255, 80, 20, 0.03);
+
+            border-radius: 18px;
+
+            padding: 45px;
+
+            text-align: center;
         }
 
         /* Logo */
 
         .logo {
-            font-family: 'Italianno', cursive;
-            font-size: 65px;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 5px;
+
             color: #ff6420;
-            text-shadow: 0 0 25px rgba(255,100,32,0.5);
-            margin-bottom: 5px;
+
+            text-shadow:
+                0 0 10px rgba(255, 100, 30, 0.6),
+                0 0 25px rgba(255, 100, 30, 0.3);
+
+            margin-bottom: 10px;
         }
 
-        .title {
-            font-family: 'Cinzel', serif;
-            font-size: 14px;
-            letter-spacing: 5px;
-            color: #ff6420;
+        .subtitle {
+            color: #777;
+            font-size: 12px;
+            letter-spacing: 3px;
             margin-bottom: 35px;
         }
 
         /* Robot */
 
         .robot {
-            font-size: 65px;
+            font-size: 60px;
+
             margin-bottom: 15px;
-            filter: drop-shadow(0 0 15px rgba(255,100,32,0.4));
+
+            filter:
+                drop-shadow(0 0 12px rgba(255, 100, 30, 0.4));
+
+            animation: floatRobot 3s ease-in-out infinite;
         }
 
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 32px;
-            color: #ffffff;
-            margin-bottom: 18px;
+        @keyframes floatRobot {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+
         }
 
-        .intro {
-            max-width: 560px;
-            margin: auto;
-            color: rgba(255,255,255,0.9);
+        /* Intro */
+
+        #introArea {
+            display: block;
+        }
+
+        .intro-title {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .intro-text {
+            color: #999;
             line-height: 1.7;
             font-size: 14px;
-            margin-bottom: 35px;
-        }
-
-        /* Question */
-
-        #questionNumber {
-            font-family: 'Cinzel', serif;
-            color: #ff6420;
-            font-size: 12px;
-            letter-spacing: 4px;
-            margin-bottom: 15px;
-        }
-
-        #questionText {
-            font-size: 19px;
-            font-weight: 500;
-            color: #ffffff;
-            line-height: 1.6;
             margin-bottom: 25px;
-        }
-
-        /* Options */
-
-        #optionsArea {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .option {
-            width: 100%;
-            padding: 15px 18px;
-
-            background: rgba(255,255,255,0.03);
-            color: rgba(255,255,255,0.95);
-
-            border: 1px solid rgba(255,255,255,0.25);
-
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-
-            cursor: pointer;
-            transition: 0.25s;
-            text-align: left;
-        }
-
-        .option:hover {
-            border-color: #ff6420;
-            background: rgba(255,100,32,0.08);
-            transform: translateX(4px);
-        }
-
-        .option.selected {
-            border-color: #ff6420;
-            background: rgba(255,100,32,0.16);
-            box-shadow: 0 0 18px rgba(255,100,32,0.15);
         }
 
         /* Buttons */
 
-        .button {
-            padding: 14px 35px;
-
-            background: #ff6420;
-            color: #050505;
-
-            border: 2px solid #ff6420;
-
-            font-family: 'Cinzel', serif;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 3px;
-
+        button {
             cursor: pointer;
+        }
+
+        .start-button,
+        .next-button,
+        .continue-button {
+
+            border: none;
+
+            background: linear-gradient(
+                135deg,
+                #ff6420,
+                #ff8a3d
+            );
+
+            color: white;
+
+            padding: 14px 28px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
 
             box-shadow:
-                0 0 20px rgba(255,100,32,0.35);
+                0 0 20px rgba(255, 100, 30, 0.25);
 
             transition: 0.25s;
         }
 
-        .button:hover:not(:disabled) {
-            transform: scale(1.04);
+        .start-button:hover,
+        .next-button:hover:not(:disabled),
+        .continue-button:hover {
+
+            transform: translateY(-2px);
+
             box-shadow:
-                0 0 30px rgba(255,100,32,0.6);
-        }
-
-        .button:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
-
-        /* Error */
-
-        #errorMessage {
-            display: none;
-            color: #ff6420;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-
-        /* Success */
-
-        #successArea {
-            display: none;
-        }
-
-        .success-icon {
-            font-size: 65px;
-            margin-bottom: 15px;
-        }
-
-        .success-title {
-            font-family: 'Cinzel', serif;
-            font-size: 28px;
-            color: #ff6420;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-        }
-
-        .brain-text {
-            color: white;
-            font-size: 16px;
-            margin-bottom: 30px;
-        }
-
-        .continue-button {
-            min-width: 210px;
+                0 0 30px rgba(255, 100, 30, 0.45);
         }
 
         /* Loading */
 
         #loadingArea {
             display: none;
-            padding: 30px;
-        }
-
-        .loading-text {
-            color: #ff6420;
-            font-family: 'Cinzel', serif;
-            letter-spacing: 3px;
-            font-size: 13px;
         }
 
         .loader {
-            width: 35px;
-            height: 35px;
-            border: 3px solid rgba(255,100,32,0.2);
-            border-top: 3px solid #ff6420;
+
+            width: 42px;
+            height: 42px;
+
+            border: 3px solid rgba(255, 100, 30, 0.2);
+
+            border-top-color: #ff6420;
+
             border-radius: 50%;
+
             margin: 25px auto;
+
             animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
+
             to {
                 transform: rotate(360deg);
             }
+
         }
 
-        /* Question animation */
+        /* Question */
 
-        .question-page {
-            animation: questionIn 0.4s ease;
+        #questionArea {
+            display: none;
         }
 
-        @keyframes questionIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
+        #questionNumber {
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            color: #ff6420;
+
+            font-size: 11px;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 15px;
+        }
+
+        #questionText {
+
+            font-size: 22px;
+
+            line-height: 1.4;
+
+            margin-bottom: 30px;
+        }
+
+        /* Options */
+
+        #optionsArea {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-bottom: 25px;
+        }
+
+        .option {
+
+            background: rgba(255, 255, 255, 0.03);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            color: #ddd;
+
+            padding: 16px;
+
+            border-radius: 10px;
+
+            transition: 0.25s;
+
+            font-size: 14px;
+        }
+
+        .option:hover {
+
+            border-color: #ff6420;
+
+            color: white;
+
+            background: rgba(255, 100, 30, 0.08);
+
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+
+            border-color: #ff6420;
+
+            background: rgba(255, 100, 30, 0.15);
+
+            color: #ff8a3d;
+
+            box-shadow:
+                0 0 15px rgba(255, 100, 30, 0.15);
+        }
+
+        /* Error */
+
+        #errorMessage {
+
+            display: none;
+
+            color: #ff4d4d;
+
+            font-size: 13px;
+
+            margin-bottom: 15px;
+        }
+
+        /* Next button */
+
+        .next-button {
+
+            width: 100%;
+        }
+
+        .next-button:disabled {
+
+            opacity: 0.35;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+        /* Success */
+
+        #successArea {
+
+            display: none;
+        }
+
+        .success-icon {
+
+            font-size: 65px;
+
+            margin-bottom: 15px;
+
+            filter:
+                drop-shadow(
+                    0 0 15px rgba(0, 255, 120, 0.35)
+                );
+        }
+
+        .success-title {
+
+            font-size: 26px;
+
+            margin-bottom: 12px;
+
+            color: #6cff9b;
+        }
+
+        .success-text {
+
+            color: #999;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
         }
 
         /* Mobile */
 
-        @media(max-width:600px) {
+        @media (max-width: 600px) {
 
             .verification-box {
-                padding: 35px 20px;
+                padding: 30px 20px;
             }
 
-            .logo {
-                font-size: 55px;
-            }
-
-            h1 {
-                font-size: 25px;
+            #optionsArea {
+                grid-template-columns: 1fr;
             }
 
             #questionText {
-                font-size: 17px;
+                font-size: 19px;
             }
+
+            .logo {
+                font-size: 28px;
+            }
+
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <div class="grid"></div>
-    <div class="glow"></div>
-    <div class="vignette"></div>
+<div class="container">
 
     <div class="verification-box">
 
-        <div class="logo">WhyFi</div>
 
-        <div class="title">
-            HUMAN VERIFICATION
-        </div>
-
-        <!-- INTRO -->
+        <!-- =====================================
+             INTRO
+        ====================================== -->
 
         <div id="introArea">
+
+            <div class="logo">
+                WHYFI
+            </div>
+
+            <div class="subtitle">
+                COSMIC HUMAN VERIFICATION
+            </div>
 
             <div class="robot">
                 🤖
             </div>
 
-            <h1>
-                Are you a robot?
-            </h1>
+            <div class="intro-title">
+                Prove You're Human
+            </div>
 
-            <p class="intro">
-                Before you enter the unknown, we need to make sure
-                you're actually human. Unfortunately, simply saying
-                "I'm not a robot" isn't convincing enough.
-            </p>
+            <div class="intro-text">
+
+                Before the universe reveals your
+                questionable future, we need to make
+                sure you're not a robot.
+
+            </div>
+
+            <button
+                class="start-button"
+                onclick="startVerification()"
+            >
+                BEGIN VERIFICATION
+            </button>
 
         </div>
 
-        <!-- LOADING QUESTIONS -->
+
+
+        <!-- =====================================
+             LOADING
+        ====================================== -->
 
         <div id="loadingArea">
 
+            <div class="logo">
+                WHYFI
+            </div>
+
             <div class="loader"></div>
 
-            <div class="loading-text">
-                CONTACTING THE INTERNET...
+            <div style="color:#777;">
+                Consulting the cosmic database...
             </div>
 
         </div>
 
-        <!-- QUESTION AREA -->
 
-        <div id="questionArea" style="display:none;">
 
-            <div id="questionPage">
+        <!-- =====================================
+             QUESTION
+        ====================================== -->
 
-                <div id="questionNumber">
-                    QUESTION 1
-                </div>
+        <div id="questionArea">
 
-                <div id="questionText">
-                    Loading question...
-                </div>
-
-                <div id="optionsArea">
-                    <!--
-                        BACKEND OPTIONS WILL APPEAR HERE
-                    -->
-                </div>
-
-                <div id="errorMessage">
-                    Please select an answer.
-                </div>
-
-                <button
-                    id="nextButton"
-                    class="button"
-                    disabled
-                    onclick="nextQuestion()">
-                    NEXT →
-                </button>
-
+            <div class="logo">
+                WHYFI
             </div>
+
+            <div class="subtitle">
+                HUMAN VERIFICATION
+            </div>
+
+            <div id="questionNumber">
+                HUMAN VERIFICATION
+            </div>
+
+            <div id="questionText">
+                Loading question...
+            </div>
+
+            <div id="optionsArea">
+            </div>
+
+            <div id="errorMessage">
+                Please select an answer.
+            </div>
+
+            <button
+                id="nextButton"
+                class="next-button"
+                onclick="nextQuestion()"
+                disabled
+            >
+                VERIFY ANSWER
+            </button>
 
         </div>
 
-        <!-- SUCCESS AREA -->
+
+
+        <!-- =====================================
+             SUCCESS
+        ====================================== -->
 
         <div id="successArea">
+
+            <div class="logo">
+                WHYFI
+            </div>
 
             <div class="success-icon">
                 ✅
@@ -411,482 +529,466 @@
                 HUMAN CONFIRMED
             </div>
 
-            <div class="brain-text">
-                Brain cells detected:
-                <strong>approximately 3</strong>
+            <div class="success-text">
+
+                Congratulations.
+
+                <br><br>
+
+                The cosmic servers have determined
+                that you are, in fact, probably human.
+
+                <br><br>
+
+                Your questionable future awaits. 🔮
+
             </div>
 
             <button
-                class="button continue-button"
-                onclick="continueToDetails()">
-                CONTINUE →
+                class="continue-button"
+                onclick="continueToDetails()"
+            >
+                CONTINUE
             </button>
 
         </div>
 
+
     </div>
 
+</div>
 
-    <script>
 
-        /*
-        ==========================================================
-        BACKEND CONNECTION
-        ==========================================================
 
-        IMPORTANT:
+<script>
 
-        NO QUESTIONS ARE STORED IN THIS FRONTEND.
+/* ==========================================
+   BACKEND API URLS
+========================================== */
 
-        The backend should provide the questions.
+const QUESTIONS_API = "/api/questions";
+const VERIFY_API = "/api/verify";
 
-        Expected GET endpoint:
 
-            GET /api/questions
+/* ==========================================
+   VARIABLES
+========================================== */
 
-        Example backend response:
+let question = null;
+let selectedAnswer = null;
 
-        {
-            "questions": [
-                {
-                    "id": "q1",
-                    "question": "Your question here?",
-                    "options": [
-                        "Option A",
-                        "Option B",
-                        "Option C",
-                        "Option D"
-                    ]
-                }
-            ]
+
+/* ==========================================
+   START VERIFICATION
+========================================== */
+
+function startVerification() {
+
+    document.getElementById("introArea").style.display = "none";
+
+    document.getElementById("loadingArea").style.display = "block";
+
+    loadQuestion();
+
+}
+
+
+/* ==========================================
+   LOAD RANDOM QUESTION FROM BACKEND
+========================================== */
+
+async function loadQuestion() {
+
+    const loadingArea =
+        document.getElementById("loadingArea");
+
+    const questionArea =
+        document.getElementById("questionArea");
+
+
+    loadingArea.style.display = "block";
+
+    questionArea.style.display = "none";
+
+
+    try {
+
+        const response = await fetch(
+            QUESTIONS_API
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Backend returned an error"
+            );
+
         }
 
-        The frontend will automatically display
-        one question at a time.
 
-        ==========================================================
-        */
-
-        const QUESTIONS_API = "/api/questions";
-
-        let questions = [];
-        let currentQuestion = 0;
-        let selectedAnswer = null;
+        question = await response.json();
 
 
-        /*
-        ==========================================================
-        LOAD QUESTIONS FROM BACKEND
-        ==========================================================
-        */
+        console.log(
+            "Question received:",
+            question
+        );
 
-        async function loadQuestions() {
 
-            const loadingArea =
-                document.getElementById("loadingArea");
+        loadingArea.style.display = "none";
 
-            const questionArea =
-                document.getElementById("questionArea");
+        questionArea.style.display = "block";
 
-            loadingArea.style.display = "block";
 
-            try {
+        showQuestion();
 
-                const response =
-                    await fetch(QUESTIONS_API);
 
-                if (!response.ok) {
-                    throw new Error("Backend unavailable");
-                }
+    }
 
-                const data =
-                    await response.json();
+    catch (error) {
 
-                /*
-                    Questions must come from backend.
-                */
+        console.error(
+            "Question loading error:",
+            error
+        );
 
-                if (
-                    !data.questions ||
-                    !Array.isArray(data.questions) ||
-                    data.questions.length === 0
-                ) {
-                    throw new Error("No questions received");
-                }
 
-                questions = data.questions;
+        loadingArea.innerHTML = `
 
-                currentQuestion = 0;
+            <div style="
+                font-size:18px;
+                color:#ff6420;
+                margin-bottom:15px;
+            ">
+                ⚠ BACKEND CONNECTION FAILED
+            </div>
 
-                loadingArea.style.display = "none";
-                questionArea.style.display = "block";
+            <div style="
+                color:#999;
+                font-size:13px;
+                line-height:1.6;
+            ">
 
-                showQuestion();
+                WhyFi could not contact the backend.
 
-            }
+                <br><br>
 
-            catch (error) {
+                Make sure your Node.js server is running:
 
-                console.error(
-                    "Could not load questions:",
-                    error
+                <br><br>
+
+                <strong style="color:white;">
+                    node server.js
+                </strong>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   DISPLAY QUESTION
+========================================== */
+
+function showQuestion() {
+
+    selectedAnswer = null;
+
+
+    document.getElementById(
+        "questionNumber"
+    ).textContent = "HUMAN VERIFICATION";
+
+
+    document.getElementById(
+        "questionText"
+    ).textContent = question.question;
+
+
+    const optionsArea =
+        document.getElementById("optionsArea");
+
+
+    optionsArea.innerHTML = "";
+
+
+    /* Create buttons for every option */
+
+    question.options.forEach(
+        (option) => {
+
+            const button =
+                document.createElement("button");
+
+
+            button.className = "option";
+
+
+            button.textContent = option;
+
+
+            button.onclick = function () {
+
+                selectOption(
+                    option,
+                    button
                 );
 
-                loadingArea.innerHTML = `
-                    <div style="color:#ff6420;">
-                        ⚠ INTERNET CONNECTION FAILED
-                    </div>
+            };
 
-                    <div style="
-                        margin-top:15px;
-                        color:white;
-                        font-size:13px;
-                    ">
-                        The backend isn't connected yet.
-                        <br><br>
-                        Please start the server and try again.
-                    </div>
-                `;
+
+            optionsArea.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+    /* Disable verify button initially */
+
+    document.getElementById(
+        "nextButton"
+    ).disabled = true;
+
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display = "none";
+
+}
+
+
+/* ==========================================
+   SELECT OPTION
+========================================== */
+
+function selectOption(
+    option,
+    button
+) {
+
+    selectedAnswer = option;
+
+
+    /* Remove previous selection */
+
+    document
+        .querySelectorAll(".option")
+        .forEach(
+            (btn) => {
+
+                btn.classList.remove(
+                    "selected"
+                );
+
             }
+        );
+
+
+    /* Highlight selected option */
+
+    button.classList.add(
+        "selected"
+    );
+
+
+    /* Enable verification */
+
+    document.getElementById(
+        "nextButton"
+    ).disabled = false;
+
+
+    /* Hide error */
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display = "none";
+
+}
+
+
+/* ==========================================
+   VERIFY ANSWER WITH BACKEND
+========================================== */
+
+async function nextQuestion() {
+
+
+    /* Make sure answer exists */
+
+    if (selectedAnswer === null) {
+
+        document.getElementById(
+            "errorMessage"
+        ).style.display = "block";
+
+        return;
+
+    }
+
+
+    const nextButton =
+        document.getElementById(
+            "nextButton"
+        );
+
+
+    nextButton.disabled = true;
+
+    nextButton.textContent =
+        "VERIFYING...";
+
+
+    try {
+
+
+        /* Send answer to backend */
+
+        const response = await fetch(
+            VERIFY_API,
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    questionId:
+                        question.id,
+
+                    answer:
+                        selectedAnswer
+
+                })
+
+            }
+        );
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Verification result:",
+            result
+        );
+
+
+        /* ==================================
+           CORRECT ANSWER
+        ================================== */
+
+        if (
+            result.success === true
+        ) {
+
+            showSuccess();
+
         }
 
 
-        /*
-        ==========================================================
-        DISPLAY ONE QUESTION
-        ==========================================================
-        */
+        /* ==================================
+           WRONG ANSWER
+        ================================== */
 
-        function showQuestion() {
-
-            selectedAnswer = null;
-
-            const question =
-                questions[currentQuestion];
-
-            const nextButton =
-                document.getElementById("nextButton");
-
-            const errorMessage =
-                document.getElementById("errorMessage");
-
-            nextButton.disabled = true;
-
-            errorMessage.style.display = "none";
-
-
-            /*
-                Question number
-            */
+        else {
 
             document.getElementById(
-                "questionNumber"
+                "errorMessage"
             ).textContent =
-                `QUESTION ${currentQuestion + 1} / ${questions.length}`;
+                "❌ " +
+                result.message;
 
-
-            /*
-                Question text
-            */
 
             document.getElementById(
-                "questionText"
-            ).textContent =
-                question.question;
-
-
-            /*
-                Create options from backend
-            */
-
-            const optionsArea =
-                document.getElementById("optionsArea");
-
-            optionsArea.innerHTML = "";
-
-
-            question.options.forEach(
-                (option, index) => {
-
-                    const button =
-                        document.createElement("button");
-
-                    button.className = "option";
-
-                    button.textContent = option;
-
-                    button.onclick = function() {
-
-                        selectOption(
-                            index,
-                            button
-                        );
-
-                    };
-
-                    optionsArea.appendChild(button);
-
-                }
-            );
-
-
-            /*
-                Animation
-            */
-
-            const questionPage =
-                document.getElementById("questionPage");
-
-            questionPage.classList.remove(
-                "question-page"
-            );
-
-            void questionPage.offsetWidth;
-
-            questionPage.classList.add(
-                "question-page"
-            );
-        }
-
-
-        /*
-        ==========================================================
-        SELECT OPTION
-        ==========================================================
-        */
-
-        function selectOption(index, button) {
-
-            selectedAnswer = index;
-
-            document
-                .querySelectorAll(".option")
-                .forEach(option => {
-
-                    option.classList.remove(
-                        "selected"
-                    );
-
-                });
-
-
-            button.classList.add("selected");
-
-            document.getElementById(
-                "nextButton"
-            ).disabled = false;
-
-        }
-
-
-        /*
-        ==========================================================
-        NEXT QUESTION
-        ==========================================================
-
-        IMPORTANT:
-
-        The answer should eventually be checked
-        by the BACKEND.
-
-        For now this function sends the selected
-        answer to the backend.
-
-        Expected endpoint:
-
-            POST /api/verify
-
-        Example request:
-
-        {
-            "questionId": "q1",
-            "answer": 2
-        }
-
-        Expected response:
-
-        {
-            "correct": true
-        }
-
-        ==========================================================
-        */
-
-        async function nextQuestion() {
-
-            if (selectedAnswer === null) {
-
-                document.getElementById(
-                    "errorMessage"
-                ).style.display = "block";
-
-                return;
-            }
-
-
-            const question =
-                questions[currentQuestion];
-
-
-            const nextButton =
-                document.getElementById(
-                    "nextButton"
-                );
-
-            nextButton.disabled = true;
-
-
-            try {
-
-                /*
-                    Send answer to backend
-                */
-
-                const response =
-                    await fetch(
-                        "/api/verify",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-
-                                questionId:
-                                    question.id,
-
-                                answer:
-                                    selectedAnswer
-
-                            })
-                        }
-                    );
-
-
-                if (!response.ok) {
-                    throw new Error(
-                        "Verification failed"
-                    );
-                }
-
-
-                const result =
-                    await response.json();
-
-
-                /*
-                    Backend decides whether
-                    the answer is correct.
-                */
-
-                if (!result.correct) {
-
-                    alert(
-                        "🤖 Wrong answer! " +
-                        "The internet has doubts " +
-                        "about your humanity."
-                    );
-
-                    nextButton.disabled = false;
-
-                    return;
-                }
-
-
-                /*
-                    Correct answer
-                */
-
-                currentQuestion++;
-
-
-                if (
-                    currentQuestion <
-                    questions.length
-                ) {
-
-                    /*
-                        Show NEXT question
-                    */
-
-                    showQuestion();
-
-                }
-
-                else {
-
-                    /*
-                        All questions completed
-                    */
-
-                    showSuccess();
-
-                }
-
-            }
-
-            catch (error) {
-
-                console.error(error);
-
-                alert(
-                    "⚠️ The internet couldn't verify " +
-                    "your answer. Check the backend."
-                );
-
-                nextButton.disabled = false;
-
-            }
-
-        }
-
-
-        /*
-        ==========================================================
-        HUMAN CONFIRMED
-        ==========================================================
-        */
-
-        function showSuccess() {
-
-            document.getElementById(
-                "questionArea"
-            ).style.display = "none";
-
-            document.getElementById(
-                "successArea"
+                "errorMessage"
             ).style.display = "block";
 
-        }
 
+            nextButton.disabled = false;
 
-        /*
-        ==========================================================
-        CONTINUE TO DETAILS PAGE
-        ==========================================================
-        */
-
-        function continueToDetails() {
-
-            window.location.href =
-                "details.html";
+            nextButton.textContent =
+                "TRY AGAIN";
 
         }
 
 
-        /*
-        ==========================================================
-        START
-        ==========================================================
-        */
+    }
 
-        loadQuestions();
+    catch (error) {
 
-    </script>
+        console.error(
+            "Verification error:",
+            error
+        );
+
+
+        document.getElementById(
+            "errorMessage"
+        ).textContent =
+            "⚠ Could not connect to the backend.";
+
+
+        document.getElementById(
+            "errorMessage"
+        ).style.display = "block";
+
+
+        nextButton.disabled = false;
+
+        nextButton.textContent =
+            "VERIFY ANSWER";
+
+    }
+
+}
+
+
+/* ==========================================
+   SHOW SUCCESS PAGE
+========================================== */
+
+function showSuccess() {
+
+    document.getElementById(
+        "questionArea"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "successArea"
+    ).style.display = "block";
+
+}
+
+
+/* ==========================================
+   CONTINUE TO DETAILS PAGE
+========================================== */
+
+function continueToDetails() {
+
+    window.location.href =
+        "details.html";
+
+}
+
+</script>
+
 
 </body>
 </html>
-```
