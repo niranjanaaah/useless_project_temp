@@ -1,0 +1,49 @@
+{
+  "engineering": [
+    "Your code has more bugs than your attendance has excuses.",
+    "You will fix one bug and accidentally create three.",
+    "Works on my machine will become your life motto.",
+    "Your compiler has seen things it cannot explain.",
+    "Your project is 90% confidence and 10% compilation."
+  ],
+
+  "college": [
+    "Your timetable is fictional literature.",
+    "You don't procrastinate. You simply respect deadlines.",
+    "Your exam preparation strategy is called panic-driven development.",
+    "You studied for three hours and remembered the first chapter.",
+    "Your strongest academic skill is identifying important questions after the exam."
+  ],
+
+  "wifi": [
+    "Your WiFi has more commitment issues than your group project.",
+    "Your signal is strong. Your motivation isn't.",
+    "Your internet speed is inversely proportional to your urgency.",
+    "Your WiFi knows you're pretending to study.",
+    "Your router has witnessed every questionable decision you've made online."
+  ],
+
+  "sleep": [
+    "You said 'I'll sleep early' and your phone laughed.",
+    "Your biological clock has resigned.",
+    "Your alarm clock has stopped believing in you.",
+    "Your bedtime is a suggestion, not a rule.",
+    "You have two modes: sleepy and 'why am I still awake?'"
+  ],
+
+  "money": [
+    "Your wallet is practicing minimalism.",
+    "You don't spend money. You release it into the economy.",
+    "Your UPI history deserves its own documentary.",
+    "Your savings account is technically decorative.",
+    "You saw 'limited offer' and your financial discipline disappeared."
+  ],
+
+  "groupProject": [
+    "One person codes. One person designs. Two people say 'we'll do it later.'",
+    "Your group project has four members and approximately 0.7 contributors.",
+    "Someone will disappear exactly when integration begins.",
+    "Your group chat is more active than your project.",
+    "The final presentation will contain at least one sentence: 'Due to time constraints...'"
+  ]
+}

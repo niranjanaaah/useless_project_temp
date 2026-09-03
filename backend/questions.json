@@ -1,22 +1,25 @@
 [
   {
-    "question": "Which one of these is NOT a vegetable?",
-    "options": ["Carrot", "Potato", "Apple", "Cabbage"],
-    "answer": "Apple"
+    "id": 1,
+    "question": "Which animal is most likely to become a software engineer?",
+    "options": ["Cat", "Dog", "Penguin", "Potato"],
+    "answer": "Penguin"
   },
   {
-    "question": "What do you normally use to unlock a door?",
-    "options": ["Key", "Banana", "Keyboard", "Spoon"],
-    "answer": "Key"
+    "id": 2,
+    "question": "Which object is least useful for connecting to WiFi?",
+    "options": ["Router", "Phone", "Laptop", "Banana"],
+    "answer": "Banana"
   },
   {
-    "question": "Which one can fly?",
-    "options": ["Bird", "Chair", "Table", "Potato"],
-    "answer": "Bird"
-  },
-  {
-    "question": "What do you drink when you're thirsty?",
-    "options": ["Water", "Sand", "Paper", "USB cable"],
-    "answer": "Water"
+    "id": 3,
+    "question": "What do students say 5 minutes before a deadline?",
+    "options": [
+      "I'm finished",
+      "Bro it's almost done",
+      "I studied everything",
+      "I don't have a deadline"
+    ],
+    "answer": "Bro it's almost done"
   }
 ]
