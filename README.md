@@ -3,7 +3,8 @@
 
 
 # whyfi 🎯
-
+THE LINK WE SUBMITTED HAS BEEN MISTAKENLY CHANGED THE ACTUAL LINK IS 
+https://useless-project-temp-gilt.vercel.app/
 
 ## Basic Details
 ### Team Name: Twin tech
@@ -14,6 +15,7 @@
 - Member 2: Devanandha Aroop -  Model Engineering College
 
 ### Project Description
+
 Have you ever connected to WiFi and wondered:
 
 "What does my WiFi connection say about my future?"
